@@ -31,10 +31,10 @@ Use the provided NPM scripts to compile and upload changes to your Sandbox.
 ## Compiling your application
 
 * `npm run compile:js` - Compiles all js files and aggregates them.
-* `npm run uploadCartridge` - Uploads the cartridge to your sandbox. A properly configured dw.json file is required (see storefront-reference-architecture documentation for a sample)
+* `npm run uploadCartridge` - Uploads the cartridge to your sandbox. A properly configured dw.json file is required (see initial commit for this repo to find a sample. Modify to point to your sandbox and active version).
 
-#Testing
+# Testing
 Since this is a demonstration plugin, there are no automated tests.
 
-#Contributing
-Since this is a demonstration plugin, there is no need to contribute. However, if there are additional examples you'd like to see added to this plugin, please contact jorge.hernandez@salesforce.com
+# Contributing
+Since this is a demonstration plugin, suggestions for improvement are welcomed. Please contact jorge.hernandez@salesforce.com. Only properly commented code will be accepted.
