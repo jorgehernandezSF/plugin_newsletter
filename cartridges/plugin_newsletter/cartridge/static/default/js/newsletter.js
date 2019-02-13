@@ -81,57 +81,135 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./cartridges/plugin_newsletter/cartridge/client/default/js/newsletter.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ "../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/formValidation.js":
-/*!************************************************************************************************************************************!*\
-  !*** ../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/formValidation.js ***!
-  \************************************************************************************************************************************/
-/*! no static exports found */
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\n/**\n * Remove all validation. Should be called every time before revalidating form\n * @param {element} form - Form to be cleared\n * @returns {void}\n */\nfunction clearFormErrors(form) {\n    $(form).find('.form-control.is-invalid').removeClass('is-invalid');\n}\n\nmodule.exports = function (formElement, payload) {\n    // clear form validation first\n    clearFormErrors(formElement);\n    $('.alert', formElement).remove();\n\n    if (typeof payload === 'object' && payload.fields) {\n        Object.keys(payload.fields).forEach(function (key) {\n            if (payload.fields[key]) {\n                var feedbackElement = $(formElement).find('[name=\"' + key + '\"]')\n                    .parent()\n                    .children('.invalid-feedback');\n\n                if (feedbackElement.length > 0) {\n                    if (Array.isArray(payload[key])) {\n                        feedbackElement.html(payload.fields[key].join('<br/>'));\n                    } else {\n                        feedbackElement.html(payload.fields[key]);\n                    }\n                    feedbackElement.siblings('.form-control').addClass('is-invalid');\n                }\n            }\n        });\n    }\n    if (payload && payload.error) {\n        var form = $(formElement).prop('tagName') === 'FORM'\n            ? $(formElement)\n            : $(formElement).parents('form');\n\n        form.prepend('<div class=\"alert alert-danger\">'\n            + payload.error.join('<br/>') + '</div>');\n    }\n};\n\n\n//# sourceURL=webpack:///../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/formValidation.js?");
+
+
+var processInclude = __webpack_require__(1);
+
+$(document).ready(function () {
+    processInclude(__webpack_require__(2));
+});
+
 
 /***/ }),
-
-/***/ "../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/util.js":
-/*!***************************************************************************************************************!*\
-  !*** ../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/util.js ***!
-  \***************************************************************************************************************/
-/*! no static exports found */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nmodule.exports = function (include) {\n    if (typeof include === 'function') {\n        include();\n    } else if (typeof include === 'object') {\n        Object.keys(include).forEach(function (key) {\n            if (typeof include[key] === 'function') {\n                include[key]();\n            }\n        });\n    }\n};\n\n\n//# sourceURL=webpack:///../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/util.js?");
+
+
+module.exports = function (include) {
+    if (typeof include === 'function') {
+        include();
+    } else if (typeof include === 'object') {
+        Object.keys(include).forEach(function (key) {
+            if (typeof include[key] === 'function') {
+                include[key]();
+            }
+        });
+    }
+};
+
 
 /***/ }),
-
-/***/ "./cartridges/plugin_newsletter/cartridge/client/default/js/newsletter.js":
-/*!********************************************************************************!*\
-  !*** ./cartridges/plugin_newsletter/cartridge/client/default/js/newsletter.js ***!
-  \********************************************************************************/
-/*! no static exports found */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar processInclude = __webpack_require__(/*! base/util */ \"../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/util.js\");\n\n$(document).ready(function () {\n    processInclude(__webpack_require__(/*! ./newsletter/newsletter */ \"./cartridges/plugin_newsletter/cartridge/client/default/js/newsletter/newsletter.js\"));\n});\n\n\n//# sourceURL=webpack:///./cartridges/plugin_newsletter/cartridge/client/default/js/newsletter.js?");
+
+
+var formValidation = __webpack_require__(3);
+
+module.exports = {
+    newsletter: function () {
+        $('form.newsletter-form').submit(function (e) {
+            var $form = $(this);
+            e.preventDefault();
+            var url = $form.attr('action');
+            $form.spinner().start();
+            $('form.newsletter-form').trigger('newsletter:submit', e);
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: $form.serialize(),
+                success: function (data) {
+                    $form.spinner().stop();
+                    if (!data.success) {
+                        formValidation($form, data);
+                    } else {
+                        location.href = data.redirectUrl;
+                    }
+                },
+                error: function (err) {
+                    if (err.responseJSON.redirectUrl) {
+                        window.location.href = err.responseJSON.redirectUrl;
+                    }
+                    $form.spinner().stop();
+                }
+            });
+            return false;
+        });
+    }
+};
+
 
 /***/ }),
-
-/***/ "./cartridges/plugin_newsletter/cartridge/client/default/js/newsletter/newsletter.js":
-/*!*******************************************************************************************!*\
-  !*** ./cartridges/plugin_newsletter/cartridge/client/default/js/newsletter/newsletter.js ***!
-  \*******************************************************************************************/
-/*! no static exports found */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nvar formValidation = __webpack_require__(/*! base/components/formValidation */ \"../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/formValidation.js\");\n\nmodule.exports = {\n    newsletter: function () {\n        $('form.newsletter-form').submit(function (e) {\n            var $form = $(this);\n            e.preventDefault();\n            var url = $form.attr('action');\n            $form.spinner().start();\n            $('form.newsletter-form').trigger('newsletter:submit', e);\n            $.ajax({\n                url: url,\n                type: 'post',\n                dataType: 'json',\n                data: $form.serialize(),\n                success: function (data) {\n                    $form.spinner().stop();\n                    if (!data.success) {\n                        formValidation($form, data);\n                    } else {\n                        location.href = data.redirectUrl;\n                    }\n                },\n                error: function (err) {\n                    if (err.responseJSON.redirectUrl) {\n                        window.location.href = err.responseJSON.redirectUrl;\n                    }\n                    $form.spinner().stop();\n                }\n            });\n            return false;\n        });\n    }\n};\n\n\n//# sourceURL=webpack:///./cartridges/plugin_newsletter/cartridge/client/default/js/newsletter/newsletter.js?");
+
+
+/**
+ * Remove all validation. Should be called every time before revalidating form
+ * @param {element} form - Form to be cleared
+ * @returns {void}
+ */
+function clearFormErrors(form) {
+    $(form).find('.form-control.is-invalid').removeClass('is-invalid');
+}
+
+module.exports = function (formElement, payload) {
+    // clear form validation first
+    clearFormErrors(formElement);
+    $('.alert', formElement).remove();
+
+    if (typeof payload === 'object' && payload.fields) {
+        Object.keys(payload.fields).forEach(function (key) {
+            if (payload.fields[key]) {
+                var feedbackElement = $(formElement).find('[name="' + key + '"]')
+                    .parent()
+                    .children('.invalid-feedback');
+
+                if (feedbackElement.length > 0) {
+                    if (Array.isArray(payload[key])) {
+                        feedbackElement.html(payload.fields[key].join('<br/>'));
+                    } else {
+                        feedbackElement.html(payload.fields[key]);
+                    }
+                    feedbackElement.siblings('.form-control').addClass('is-invalid');
+                }
+            }
+        });
+    }
+    if (payload && payload.error) {
+        var form = $(formElement).prop('tagName') === 'FORM'
+            ? $(formElement)
+            : $(formElement).parents('form');
+
+        form.prepend('<div class="alert alert-danger">'
+            + payload.error.join('<br/>') + '</div>');
+    }
+};
+
 
 /***/ })
-
-/******/ });
+/******/ ]);
