@@ -19,9 +19,9 @@ The plugin demonstrates several B2C Commerce concepts in one easy to follow exam
 
 1. Clone this repository.
 2. Install npm dependancies `npm install`.
-3. Open package.json file and modify `paths.base` property to point to your local app_storefront_base cartridge
-4. Run `npm run compile:js` to create client-side assets.  There is no scss to compile.
-5. Run `npm run uploadCartridge` if you have a properly configured dw.json with login credentials to your SB
+3. Open package.json file and modify `paths.base` property to point to your local app_storefront_base cartridge.
+4. Run `npm run compile:js` to create client-side assets.  There is no scss to compile (more on NPM scripts below).
+5. Run `npm run uploadCartridge` if you have a properly configured dw.json with login credentials to your SB (more on NPM scripts below).
 6. In Business Manager, add the plugin_newsletter cartridge to your site's cartridge path. The path must contain the SFRA base cartridge app_storefront_base.
 7. In Business Manager, under Administration > Site Development > Import & Export, upload and import the newslettersubscription_co_metadata.xml.  This custom object definition is required for the demo to work.
 8. On a browser, invoke the Newsletter-Show route for in your site.  For example: https://<your_sandbox>/on/demandware.store/Sites-<your_site>-Site/en_US/Newsletter-Show.
@@ -32,7 +32,7 @@ Use the provided NPM scripts to compile client-side Javascript and upload all ca
 ## Compiling your application
 
 * `npm run compile:js` - Compiles all js files and aggregates them.
-* `npm run uploadCartridge` - Uploads the cartridge(s) to your sandbox. A properly configured dw.json file is required (see initial commit for this repo to find a sample. Modify dw.json to point to your sandbox and version you want to upload to).
+* `npm run uploadCartridge` - Uploads the cartridge(s) to your sandbox. A properly configured dw.json file is required (see initial commit for this repo to find an example. Modify your local dw.json to point to your sandbox and the version you want to upload to).
 
 # Testing
 Since this is a demonstration plugin, there are no automated tests.
