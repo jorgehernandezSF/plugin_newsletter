@@ -13,12 +13,13 @@ The plugin demonstrates several B2C Commerce concepts in one easy to follow exam
 8. Use of a middleware event in controller: BeforeComplete
 9. Use of Logger class to log an error when CO has not been defined
 10. Sending validation error message back to the client-side
+11. Using a hook to send a confirmation email when the user signs up for the newsletter
 
 # Getting Started
 
 1. Clone this repository.
 2. Install npm dependancies `npm install`.
-3. Open package.json file and modify `paths.base` property to point to your local app_storefront_base cartridge.
+3. Open package.json file and modify `paths.base` property to point to your local app_storefront_base cartridge
 4. Run `npm run compile:js` to create client-side assets.  There is no scss to compile.
 5. Run `npm run uploadCartridge` if you have a properly configured dw.json with login credentials to your SB
 6. In Business Manager, add the plugin_newsletter cartridge to your site's cartridge path. The path must contain the SFRA base cartridge app_storefront_base.
@@ -26,12 +27,12 @@ The plugin demonstrates several B2C Commerce concepts in one easy to follow exam
 8. On a browser, invoke the Newsletter-Show route for in your site.  For example: https://<your_sandbox>/on/demandware.store/Sites-<your_site>-Site/en_US/Newsletter-Show.
 
 # NPM scripts
-Use the provided NPM scripts to compile and upload changes to your Sandbox.
+Use the provided NPM scripts to compile client-side Javascript and upload all cartridges to your sandbox. Note: these scripts are defined in the package.json file.  The scripts depend on the sgmf-scripts repository. Please clone and build (npm install) sgmf-scripts before building this sample repository.
 
 ## Compiling your application
 
 * `npm run compile:js` - Compiles all js files and aggregates them.
-* `npm run uploadCartridge` - Uploads the cartridge to your sandbox. A properly configured dw.json file is required (see initial commit for this repo to find a sample. Modify to point to your sandbox and active version).
+* `npm run uploadCartridge` - Uploads the cartridge(s) to your sandbox. A properly configured dw.json file is required (see initial commit for this repo to find a sample. Modify dw.json to point to your sandbox and version you want to upload to).
 
 # Testing
 Since this is a demonstration plugin, there are no automated tests.
